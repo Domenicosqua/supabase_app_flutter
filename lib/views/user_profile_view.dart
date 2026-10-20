@@ -27,7 +27,7 @@ class _UserProfileViewState extends State<UserProfileView> {
   void initState() {
     super.initState();
     final profileVM = Provider.of<ProfileViewModel>(context, listen: false);
-    WidgetsBinding.instance.addPersistentFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       profileVM.loadUserProfile().then((_) {
         final profile = profileVM.profile;
         if (profile != null) {
@@ -68,6 +68,7 @@ class _UserProfileViewState extends State<UserProfileView> {
                         ),
                       ),
                     ),
+                    SizedBox(height: 20),
                     TextFormField(
                       controller: _usernameController,
                       decoration: const InputDecoration(
