@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:supabase_proj/models/book_model.dart';
+import 'package:supabase_proj/viewmodel/book_view_model.dart';
+import 'package:uuid/uuid.dart';
 
 String _statusLabel(BookStatus status) {
   switch (status) {
@@ -42,11 +46,43 @@ class _AddBookViewState extends State<AddBookView> {
     super.dispose();
   }
 
-  void _submitForm() {
-    if (_formKey.currentState!.validate()) {
-      //* logica di salvataggio da inserire
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Libro salvato')));
+  void _submitForm() async {
+    if (_formKey.currentState!.validate() && _selectedStatus != null) {
+      final userId = Supabase.instance.client.auth.currentUser?.id;
+      if (userId == null) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('utente non autenticato')));
+        return;
+      }
+      final newBook = Book(
+        id: const Uuid().v4(), // genera un nuovo UUID
+        user_id: userId,
+        title: _titleController.text.trim(),
+        genre: _genreController.text.trim(),
+        author: _authorController.text.trim(),
+        pages: int.tryParse(_pagesController.text.trim()) ?? 0,
+        rating: _rating.toInt(),
+        comment: _commentController.text.trim(),
+        status: _selectedStatus!,
+        created_at: DateTime.now(),
+      );
+
+      try {
+        await Provider.of<BookViewModel>(
+          context,
+          listen: false,
+        ).addBook(newBook);
+        if (context.mounted) {
+          Navigator.pop(context);
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text('Libro salvato')));
+        }
+      } catch (e) {
+        print('Errore: $e');
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Errore nel salvataggio')));
+      }
     }
   }
 
