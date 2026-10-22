@@ -96,15 +96,20 @@ class _AddBookViewState extends State<AddBookView> {
             await imageService.createBookImage(bookImage);
           }
         }
-        if (context.mounted) {
+        if (mounted) {
+          final messenger = ScaffoldMessenger.of(context);
           Navigator.pop(context);
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text('Libro salvato')));
+          messenger.showSnackBar(
+            const SnackBar(content: Text('Libro salvato')),
+          );
         }
       } catch (e) {
         print('Errore: $e');
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Errore nel salvataggio')));
+        if (mounted) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text('Errore nel salvataggio: $e')));
+        }
       }
     }
   }

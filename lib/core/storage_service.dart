@@ -14,9 +14,8 @@ class StorageService {
         '${DateTime.now().millisecondsSinceEpoch}_${basename(imageFile.path)}';
     final filePath = '$bookId/$fileName';
 
-    final storageResponse = await _client.storage
-        .from(bucket)
-        .upload(filePath, fileName);
+    await _client.storage.from(bucket).upload(filePath, imageFile);
+
     final publicUrl = _client.storage.from(bucket).getPublicUrl(filePath);
     return publicUrl;
   }

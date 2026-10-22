@@ -14,6 +14,6 @@ class BookImage {
   }
 
   Map<String, dynamic> toMap() {
-    return {'id': id, 'book_id': book_id, 'imahe_url': image_url};
+    return {'id': id, 'book_id': book_id, 'image_url': image_url};
   }
 }
