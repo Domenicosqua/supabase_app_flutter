@@ -10,6 +10,19 @@ class BookViewModel extends ChangeNotifier {
 
   List<Book> get books => _books; //getter publico
 
+  Future<void> loadAllBooks() async {
+    isLoading = true;
+    notifyListeners();
+    try {
+      _books = await _bookService.fetchBook();
+    } catch (e) {
+      print('errore: $e');
+    }
+
+    isLoading = false;
+    notifyListeners();
+  }
+
   Future<void> loadBooks() async {
     isLoading = true;
     notifyListeners();
