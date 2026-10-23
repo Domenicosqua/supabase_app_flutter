@@ -25,7 +25,7 @@ class BookDetailView extends StatelessWidget {
                   children: images.map((img) {
                     return ClipRRect(
                       borderRadius: BorderRadius.circular(12),
-                      child: Image.network(img.image_url, fit: BoxFit.cover),
+                      child: Image.network(img.imageUrl, fit: BoxFit.cover),
                     );
                   }).toList(),
                 ),

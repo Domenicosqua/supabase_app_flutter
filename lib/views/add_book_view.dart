@@ -90,8 +90,8 @@ class _AddBookViewState extends State<AddBookView> {
             );
             final bookImage = BookImage(
               id: const Uuid().v4(),
-              book_id: newBook.id,
-              image_url: imageUrl,
+              bookId: newBook.id,
+              imageUrl: imageUrl,
             );
             await imageService.createBookImage(bookImage);
           }

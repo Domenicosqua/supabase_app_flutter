@@ -1,19 +1,19 @@
 class BookImage {
   final String id;
-  final String book_id;
-  final String image_url;
+  final String bookId;
+  final String imageUrl;
 
-  BookImage({required this.id, required this.book_id, required this.image_url});
+  BookImage({required this.id, required this.bookId, required this.imageUrl});
 
   factory BookImage.fromMap(Map<String, dynamic> map) {
     return BookImage(
       id: map['id'],
-      book_id: map['book_id'],
-      image_url: map['image_url'],
+      bookId: map['book_id'],
+      imageUrl: map['image_url'],
     );
   }
 
   Map<String, dynamic> toMap() {
-    return {'id': id, 'book_id': book_id, 'image_url': image_url};
+    return {'id': id, 'book_id': bookId, 'image_url': imageUrl};
   }
 }
